@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>黃鈺婷的作品集</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* 簡單 hover 效果 */
+    .card:hover { transform: translateY(-5px); transition: 0.3s; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">鈺婷</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#home">首頁</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">關於</a></li>
+        <li class="nav-item"><a class="nav-link" href="#portfolio">作品</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">聯絡</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section id="home" class="py-5 bg-light text-center">
+  <div class="container">
+    <h1 class="display-4">Hi，我是 黃鈺婷</h1>
+    <p class="lead text-muted fs-5">
+      我是淡江大學資管系的學生，平常喜歡玩遊戲、打羽球，也很愛看動漫。對我來說，寫程式就像在闖關一樣，有挑戰也有成就感，希望能用學到的技能做出有趣又實用的作品。
+    </p>
+    <a href="#contact" class="btn btn-primary btn-lg me-2">聯絡我</a>
+    <a href="#portfolio" class="btn btn-outline-primary btn-lg">看作品</a>
+  </div>
+</section>
+
+<section id="about" class="py-5 bg-white">
+  <div class="container">
+    <h2 class="text-center mb-5">關於我</h2>
+    <div class="row align-items-center">
+      <div class="col-md-6 text-center mb-4 mb-md-0">
+        <img src="https://stickershop.line-scdn.net/stickershop/v1/sticker/14319/ANDROID/sticker.png" alt="我的照片" class="img-fluid rounded-circle">
+      </div>
+      <div class="col-md-6">
+        <p class="text-muted fs-5">
+          我是資管系的學生，對前端設計和互動介面很有興趣。喜歡動手做東西，也喜歡把複雜的東西整理得更清楚、好用。平常打羽球、玩遊戲或追動漫，課業之餘也保持放鬆與創意。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills Section -->
+<section id="skills" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-5">技能展示</h2>
+    <div class="row justify-content-center">
+      <!-- Java -->
+      <div class="col-md-3 mb-4">
+        <div class="card h-100 text-center">
+          <img src="data:image/png;base64,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" class="card-img-top" alt="Java">
+          <div class="card-body">
+            <h5 class="card-title">Java</h5>
+            <p class="card-text">熟悉物件導向程式設計與基本演算法。</p>
+          </div>
+        </div>
+      </div>
+      <!-- Python -->
+      <div class="col-md-3 mb-4">
+        <div class="card h-100 text-center">
+          <img src="data:image/png;base64,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" class="card-img-top" alt="Python">
+          <div class="card-body">
+            <h5 class="card-title">Python</h5>
+            <p class="card-text">會撰寫資料分析、簡單自動化與爬蟲程式。</p>
+          </div>
+        </div>
+      </div>
+      <!-- HTML -->
+      <div class="col-md-3 mb-4">
+        <div class="card h-100 text-center">
+          <img src="data:image/png;base64,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" class="card-img-top" alt="HTML">
+          <div class="card-body">
+            <h5 class="card-title">HTML</h5>
+            <p class="card-text">熟悉網頁結構、標籤語意化與排版布局。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Portfolio Section -->
+ <style>
+  .portfolio-img-fixed {
+    height: 200px; /* 您可以根據需求調整此高度 */
+    object-fit: cover; /* 確保圖片能完整覆蓋空間，可能會裁切邊緣 */
+  }
+</style>
+<section id="portfolio" class="py-5 bg-white">
+  <div class="container">
+    <h2 class="text-center mb-5">作品集</h2>
+    <div class="row">
+      
+      <!-- 作品 1: ECO MAP永續教育互動學習APP -->
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100">
+          <img src="螢幕擷取畫面 2025-10-13 142246.png" class="card-img-top card-img-top portfolio-img-fixed" alt="ECO MAP">
+          <div class="card-body">
+            <h5 class="card-title">ECO MAP 永續教育互動學習APP</h5>
+            <p class="card-text">
+              擔任組長，負責專案規劃、進度管理與介面設計，整合 SDGs 與遊戲化學習，完成知識地圖與三大檢測島原型。
+            </p>
+            <a href="https://reurl.cc/axdVWY" target="_blank" class="btn btn-primary">查看詳情</a>
+            <a href="https://youtu.be/b1nAyhTSEnk" target="_blank" class="btn btn-outline-primary mt-2">影片連結</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 作品 2: 數位媒體訪問小組 -->
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100">
+          <img src="螢幕擷取畫面 2025-10-13 142506.png" class="card-img-top card-img-top portfolio-img-fixed" alt="數位媒體訪問小組">
+          <div class="card-body">
+            <h5 class="card-title">數位媒體訪問小組</h5>
+            <p class="card-text">
+              參與專案企劃與簡報製作，協助撰寫企畫書與資料整理，提升專案呈現品質。
+            </p>
+            <a href="盲用電腦改寫盲生的未來 (1).pdf" target="_blank" class="btn btn-primary">簡報連結</a>
+            <a href="https://youtu.be/rR6KXVLBK2w" target="_blank" class="btn btn-outline-primary mt-2">影片連結</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 作品 3: 鼠一鼠二小廚神 -->
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100">
+          <img src="螢幕擷取畫面 2025-10-13 141805.png" class="card-img-top card-img-top portfolio-img-fixed" alt="鼠一鼠二小廚神">
+          <div class="card-body">
+            <h5 class="card-title">鼠一鼠二小廚神</h5>
+            <p class="card-text">
+              擔任組長，統籌專案進度與團隊分工，撰寫企畫書與設計宣傳海報，提升活動執行與呈現品質。
+            </p>
+            <a href="鼠一鼠二小廚神.pdf" target="_blank" class="btn btn-primary mb-1">企畫書連結</a>
+            <a href="海報1.pdf" target="_blank" class="btn btn-outline-primary mb-1">海報 1</a>
+            <a href="海報2.pdf" target="_blank" class="btn btn-outline-primary mb-1">海報 2</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Contact Section -->
+<section id="contact" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-5">聯絡我</h2>
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <form action="mailto:412630369@o365.tku.edu.tw" method="post" enctype="text/plain">
+          <div class="mb-3">
+            <label for="name" class="form-label">姓名</label>
+            <input type="text" class="form-control" id="name" name="姓名" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="Email" required>
+          </div>
+          <div class="mb-3">
+            <label for="subject" class="form-label">主旨</label>
+            <input type="text" class="form-control" id="subject" name="主旨" required>
+          </div>
+          <div class="mb-3">
+            <label for="message" class="form-label">訊息</label>
+            <textarea class="form-control" id="message" name="訊息" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">送出</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4">
+  <p>© 2025 鈺婷 
+    <a href="https://www.facebook.com/huang.yu.ting.50320/" class="text-white mx-3">Facebook</a>
+    <a href="https://www.instagram.com/dt.0255/" class="text-white mx-3">Instagram</a>
+    <a href="mailto:ab919055@gmail.com" class="text-white mx-3">Gmail</a>
+  </p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
