@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猜數字遊戲</title>
+    <style>
+        /* 簡單的 CSS 樣式讓 <pre> 顯示得更清楚 */
+        #gameOutput {
+            white-space: pre-wrap; /* 讓文字自動換行 */
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f4f4f4;
+            min-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>猜數字遊戲 (1 - 100)</h1>
+    <p>點擊下方的按鈕開始遊戲。</p>
+    
+    <button onclick="startGame()">開始遊戲</button>
+
+    <h2>遊戲記錄與提示:</h2>
+    <pre id="gameOutput"></pre>
+
+    <script src="guessing_game.js"></script>
+</body>
+</html>
