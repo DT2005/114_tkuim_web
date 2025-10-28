@@ -1,361 +1,342 @@
-// signup_form.js
-// 驗證規則、事件委派、localStorage 暫存、送出攔截、重設
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('signupForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const successMessage = document.getElementById('successMessage');
+    const interestTagsContainer = document.getElementById('interestTags');
+    const tagsCountElement = document.getElementById('tags-count');
 
-const form = document.getElementById('signup-form');
-const submitBtn = document.getElementById('submit-btn');
-const resetBtn = document.getElementById('reset-btn');
-const savedNote = document.getElementById('saved-note');
+    // 所有需要即時驗證的輸入欄位
+    const formFields = [
+        'name', 'email', 'phone', 'password', 'confirmPassword', 'terms'
+    ].map(id => document.getElementById(id));
 
-// fields
-const fld = {
-  name: document.getElementById('name'),
-  email: document.getElementById('email'),
-  phone: document.getElementById('phone'),
-  password: document.getElementById('password'),
-  confirm: document.getElementById('confirm'),
-  interests: document.getElementById('interests'),
-  terms: document.getElementById('terms')
-};
+    // 專門用於密碼強度檢查的元素
+    const passwordInput = document.getElementById('password');
+    const strengthBar = document.getElementById('password-strength-bar');
+    const strengthInfo = document.getElementById('password-strength-info');
 
-// error nodes
-const err = {
-  name: document.getElementById('name-error'),
-  email: document.getElementById('email-error'),
-  phone: document.getElementById('phone-error'),
-  password: document.getElementById('password-error'),
-  confirm: document.getElementById('confirm-error'),
-  interest: document.getElementById('interest-error'),
-  terms: document.getElementById('terms-error')
-};
+    // =================================================================
+    // 1. 本地儲存 (localStorage) 暫存欄位內容 (進階功能)
+    // =================================================================
+    const STORAGE_KEY = 'signupFormData';
 
-// strength UI
-const strengthBar = document.getElementById('password-strength-bar');
-const strengthText = document.getElementById('password-strength-text');
+    /**
+     * 從 localStorage 載入資料並恢復表單
+     */
+    function loadFormData() {
+        const storedData = localStorage.getItem(STORAGE_KEY);
+        if (storedData) {
+            const data = JSON.parse(storedData);
+            formFields.forEach(field => {
+                if (field.type === 'checkbox') {
+                    field.checked = data[field.name] === 'on';
+                } else if (field.name !== 'password' && field.name !== 'confirmPassword') {
+                    // 不恢復密碼欄位，以策安全
+                    field.value = data[field.name] || '';
+                }
+            });
 
-// localStorage key
-const LS_KEY = 'signup_form_draft_v1';
+            // 恢復興趣標籤
+            const storedInterests = data.interest || [];
+            document.querySelectorAll('#interestTags input[type="checkbox"]').forEach(checkbox => {
+                const isChecked = storedInterests.includes(checkbox.value);
+                checkbox.checked = isChecked;
+                const label = checkbox.closest('.tag-label');
+                if (label) {
+                    label.classList.toggle('selected', isChecked);
+                }
+            });
 
-// ------------ validation helpers ------------
-function setFieldError(input, message) {
-  // setCustomValidity + visible message + aria
-  input.setCustomValidity(message || '');
-  const id = input.id;
-  if (err[id]) err[id].textContent = message || '';
-  if (message) {
-    input.classList.add('is-invalid');
-  } else {
-    input.classList.remove('is-invalid');
-  }
-}
-
-function validateName() {
-  const v = fld.name.value.trim();
-  if (!v) {
-    setFieldError(fld.name, '請輸入姓名');
-    return false;
-  }
-  setFieldError(fld.name, '');
-  return true;
-}
-
-function validateEmail() {
-  const v = fld.email.value.trim();
-  if (!v) {
-    setFieldError(fld.email, '請輸入 Email');
-    return false;
-  }
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!re.test(v)) {
-    setFieldError(fld.email, 'Email 格式不正確');
-    return false;
-  }
-  setFieldError(fld.email, '');
-  return true;
-}
-
-function validatePhone() {
-  const v = fld.phone.value.trim();
-  if (!v) {
-    setFieldError(fld.phone, '請輸入手機號碼');
-    return false;
-  }
-  const re = /^\d{10}$/;
-  if (!re.test(v)) {
-    setFieldError(fld.phone, '手機需為 10 碼數字 (例如 0912345678)');
-    return false;
-  }
-  setFieldError(fld.phone, '');
-  return true;
-}
-
-function passwordRules(v) {
-  const lengthOk = v.length >= 8;
-  const hasLetter = /[A-Za-z]/.test(v);
-  const hasNumber = /[0-9]/.test(v);
-  return { lengthOk, hasLetter, hasNumber };
-}
-
-function evaluateStrength(v) {
-  if (!v) return 0;
-  const r = passwordRules(v);
-  if (!r.lengthOk) return 1; // too short -> weak
-  if (r.hasLetter && r.hasNumber && v.length >= 12) return 3; // strong
-  if (r.hasLetter && r.hasNumber) return 2; // medium
-  return 1; // weak
-}
-
-function updateStrengthUI() {
-  const v = fld.password.value || '';
-  const s = evaluateStrength(v);
-  strengthBar.classList.remove('weak','medium','strong');
-  strengthText.textContent = '弱';
-  if (s === 1) { strengthBar.classList.add('weak'); strengthText.textContent = '弱'; }
-  if (s === 2) { strengthBar.classList.add('medium'); strengthText.textContent = '中'; }
-  if (s === 3) { strengthBar.classList.add('strong'); strengthText.textContent = '強'; }
-}
-
-function validatePassword() {
-  const v = fld.password.value;
-  if (!v) {
-    setFieldError(fld.password, '請輸入密碼');
-    updateStrengthUI();
-    return false;
-  }
-  const r = passwordRules(v);
-  if (!r.lengthOk) {
-    setFieldError(fld.password, '密碼至少 8 碼');
-    updateStrengthUI();
-    return false;
-  }
-  if (!(r.hasLetter && r.hasNumber)) {
-    setFieldError(fld.password, '密碼需英數混合（至少包含英文字母與數字）');
-    updateStrengthUI();
-    return false;
-  }
-  setFieldError(fld.password, '');
-  updateStrengthUI();
-  return true;
-}
-
-function validateConfirm() {
-  const v = fld.confirm.value;
-  if (!v) {
-    setFieldError(fld.confirm, '請再次輸入密碼以確認');
-    return false;
-  }
-  if (v !== fld.password.value) {
-    setFieldError(fld.confirm, '確認密碼與密碼不相符');
-    return false;
-  }
-  setFieldError(fld.confirm, '');
-  return true;
-}
-
-function validateInterests() {
-  const boxes = Array.from(fld.interests.querySelectorAll('input[type="checkbox"]'));
-  const checked = boxes.filter(b => b.checked);
-  if (checked.length < 1) {
-    err.interest.textContent = '請至少勾選 1 個興趣';
-    fld.interests.classList.remove('has-valid');
-    fld.interests.classList.add('has-invalid');
-    return false;
-  }
-  err.interest.textContent = '';
-  fld.interests.classList.remove('has-invalid');
-  fld.interests.classList.add('has-valid');
-  return true;
-}
-
-function validateTerms() {
-  if (!fld.terms.checked) {
-    err.terms.textContent = '必須同意服務條款才能送出';
-    fld.terms.classList.add('is-invalid');
-    return false;
-  }
-  err.terms.textContent = '';
-  fld.terms.classList.remove('is-invalid');
-  return true;
-}
-
-// ------------ interest event delegation & visuals ------------
-fld.interests.addEventListener('click', (e) => {
-  const label = e.target.closest('.tag');
-  if (!label) return;
-  const checkbox = label.querySelector('input[type="checkbox"]');
-  // toggle checkbox if click on label
-  if (e.target !== checkbox) checkbox.checked = !checkbox.checked;
-  // update selected style
-  if (checkbox.checked) label.classList.add('selected'); else label.classList.remove('selected');
-  // update validation state/count
-  validateInterests();
-  saveDraftDebounced();
-});
-
-// initialize tag states on load (in case of restored values)
-function restoreTagsFromDOM() {
-  fld.interests.querySelectorAll('.tag').forEach(label => {
-    const cb = label.querySelector('input[type="checkbox"]');
-    if (cb.checked) label.classList.add('selected'); else label.classList.remove('selected');
-  });
-}
-
-// ------------ live event handlers ------------
-fld.name.addEventListener('blur', validateName);
-fld.email.addEventListener('blur', validateEmail);
-fld.phone.addEventListener('blur', validatePhone);
-fld.password.addEventListener('blur', validatePassword);
-fld.confirm.addEventListener('blur', validateConfirm);
-
-fld.password.addEventListener('input', () => {
-  updateStrengthUI();
-  // if previously invalid, revalidate
-  if (fld.password.classList.contains('is-invalid')) validatePassword();
-  // confirm may need revalidate
-  if (fld.confirm.value) validateConfirm();
-  saveDraftDebounced();
-});
-
-[fld.name, fld.email, fld.phone, fld.confirm].forEach(el => {
-  el.addEventListener('input', (e) => {
-    if (el.classList.contains('is-invalid')) {
-      // live update only to clear if valid
-      switch (el) {
-        case fld.name: validateName(); break;
-        case fld.email: validateEmail(); break;
-        case fld.phone: validatePhone(); break;
-        case fld.confirm: validateConfirm(); break;
-      }
+            updateTagsCount();
+            // 不恢復密碼，所以密碼強度條會是空的
+        }
     }
-    saveDraftDebounced();
-  });
-});
 
-fld.terms.addEventListener('change', () => {
-  if (fld.terms.checked) {
-    // optional: show terms text modal/confirm
-    const ok = window.confirm('條款簡短說明：使用者同意平台服務規範，按確定表示您同意。');
-    if (!ok) {
-      fld.terms.checked = false;
+    // 儲存資料的邏輯保持不變
+    function saveFormData() {
+        const formData = new FormData(form);
+        const data = {};
+        for (const [key, value] of formData.entries()) {
+            if (key === 'interest') {
+                if (!data.interest) data.interest = [];
+                data.interest.push(value);
+            } else {
+                data[key] = value;
+            }
+        }
+        delete data.password;
+        delete data.confirmPassword;
+        
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }
-  }
-  validateTerms();
-  saveDraftDebounced();
-});
 
-// ------------ form submit handling ------------
-function focusFirstInvalidAndReport() {
-  // find first invalid field in preferred order
-  const order = ['name','email','phone','password','confirm','interests','terms'];
-  for (const key of order) {
-    let ok;
-    switch (key) {
-      case 'name': ok = validateName(); if (!ok) { fld.name.focus(); return false; } break;
-      case 'email': ok = validateEmail(); if (!ok) { fld.email.focus(); return false; } break;
-      case 'phone': ok = validatePhone(); if (!ok) { fld.phone.focus(); return false; } break;
-      case 'password': ok = validatePassword(); if (!ok) { fld.password.focus(); return false; } break;
-      case 'confirm': ok = validateConfirm(); if (!ok) { fld.confirm.focus(); return false; } break;
-      case 'interests': ok = validateInterests(); if (!ok) { fld.interests.querySelector('input')?.focus(); return false; } break;
-      case 'terms': ok = validateTerms(); if (!ok) { fld.terms.focus(); return false; } break;
+    // 啟動時載入資料，並監聽 input 事件儲存
+    loadFormData();
+    form.addEventListener('input', saveFormData);
+
+    // =================================================================
+    // 2. 密碼強度條 (修正核心邏輯)
+    // =================================================================
+
+    /**
+     * 檢查密碼強度並更新 UI
+     * @param {string} password 
+     */
+    function checkPasswordStrength(password = passwordInput.value) {
+        let strength = 0;
+        let info = '密碼強度：無';
+        let width = '0%';
+        let className = '';
+
+        if (!password) {
+             // 密碼為空時的初始狀態
+            strengthBar.style.width = '0%';
+            strengthBar.className = 'strength-bar';
+            strengthInfo.textContent = '密碼強度：無';
+            return;
+        }
+
+        // 計分規則
+        if (password.length >= 8) {
+            strength++; // 8 碼長度
+        }
+        if (/[a-z]/.test(password) && /[A-Z]/.test(password)) {
+            strength++; // 包含大小寫字母
+        }
+        if (/\d/.test(password)) {
+            strength++; // 包含數字
+        }
+        if (/[^a-zA-Z0-9]/.test(password)) {
+            strength++; // 包含特殊符號
+        }
+        
+        // 根據計分設置強度等級
+        if (strength <= 1) {
+            info = '密碼強度：弱';
+            width = '33%';
+            className = 'strength-weak';
+        } else if (strength === 2 || (strength === 3 && password.length < 10)) {
+            info = '密碼強度：中';
+            width = '66%';
+            className = 'strength-medium';
+        } else { // strength >= 3 (且長度足夠), 或 strength == 4
+            info = '密碼強度：強';
+            width = '100%';
+            className = 'strength-strong';
+        }
+
+        strengthBar.style.width = width;
+        strengthBar.className = `strength-bar ${className}`;
+        strengthInfo.textContent = info;
     }
-  }
-  return true;
-}
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  // run all validators
-  const ok = focusFirstInvalidAndReport();
-  if (!ok) return;
+    // 密碼欄位的 input 事件即時更新強度條
+    passwordInput.addEventListener('input', checkPasswordStrength);
+    // 初始載入時也檢查一次（雖然是空的）
+    checkPasswordStrength(); 
 
-  // all valid -> simulate submission
-  submitBtn.disabled = true;
-  submitBtn.textContent = '送出中…';
-  submitBtn.setAttribute('aria-busy','true');
 
-  await new Promise(resolve => setTimeout(resolve, 1000));
+    // =================================================================
+    // 3. 事件委派：興趣標籤 (保持不變)
+    // =================================================================
 
-  // simulate success
-  submitBtn.disabled = false;
-  submitBtn.textContent = '送出';
-  submitBtn.removeAttribute('aria-busy');
-  localStorage.removeItem(LS_KEY);
-  savedNote.textContent = '送出成功，資料已清除（localStorage 已清除）。';
-  // optionally clear form
-  form.reset();
-  restoreTagsFromDOM();
-  updateStrengthUI();
-});
+    function updateTagsCount() {
+        const checkedCount = interestTagsContainer.querySelectorAll('input[type="checkbox"]:checked').length;
+        tagsCountElement.textContent = `已勾選 ${checkedCount} 個`;
 
-// ------------ reset button ------------
-resetBtn.addEventListener('click', () => {
-  form.reset();
-  // clear errors
-  Object.values(err).forEach(n => n && (n.textContent=''));
-  document.querySelectorAll('input').forEach(i => i.classList.remove('is-invalid'));
-  document.querySelectorAll('.tag').forEach(t => t.classList.remove('selected'));
-  localStorage.removeItem(LS_KEY);
-  savedNote.textContent = '已重設，暫存資料已清除。';
-  updateStrengthUI();
-});
+        const tagsErrorElement = document.getElementById('tags-error');
+        if (checkedCount === 0) {
+            tagsCountElement.style.color = 'var(--danger-color)';
+            tagsErrorElement.textContent = '請至少勾選 1 個興趣標籤。';
+            interestTagsContainer.setAttribute('aria-invalid', 'true');
+        } else {
+            tagsCountElement.style.color = '#6c757d';
+            tagsErrorElement.textContent = '';
+            interestTagsContainer.removeAttribute('aria-invalid');
+        }
+    }
 
-// ------------ localStorage autosave ------------
-function getFormData() {
-  const data = {
-    name: fld.name.value,
-    email: fld.email.value,
-    phone: fld.phone.value,
-    password: fld.password.value,
-    confirm: fld.confirm.value,
-    interests: Array.from(fld.interests.querySelectorAll('input[type="checkbox"]')).map(cb => ({value:cb.value,checked:cb.checked})),
-    terms: fld.terms.checked,
-    ts: Date.now()
-  };
-  return data;
-}
-
-function restoreDraft() {
-  const raw = localStorage.getItem(LS_KEY);
-  if (!raw) return;
-  try {
-    const data = JSON.parse(raw);
-    fld.name.value = data.name || '';
-    fld.email.value = data.email || '';
-    fld.phone.value = data.phone || '';
-    fld.password.value = data.password || '';
-    fld.confirm.value = data.confirm || '';
-    data.interests && data.interests.forEach(it => {
-      const cb = fld.interests.querySelector(`input[value="${it.value}"]`);
-      if (cb) cb.checked = !!it.checked;
+    interestTagsContainer.addEventListener('change', (event) => {
+        if (event.target.type === 'checkbox' && event.target.name === 'interest') {
+            const label = event.target.closest('.tag-label');
+            label.classList.toggle('selected', event.target.checked);
+            updateTagsCount();
+            saveFormData();
+        }
     });
-    fld.terms.checked = !!data.terms;
-    restoreTagsFromDOM();
-    updateStrengthUI();
-    savedNote.textContent = '已自動還原上次填寫資料（暫存）。';
-  } catch (err) {
-    console.warn('restore draft error', err);
-  }
-}
 
-function saveDraft() {
-  try {
-    localStorage.setItem(LS_KEY, JSON.stringify(getFormData()));
-    savedNote.textContent = '已自動暫存表單（localStorage）。';
-  } catch (e) {
-    console.warn('save draft failed', e);
-  }
-}
-const saveDraftDebounced = debounce(saveDraft, 300);
+    updateTagsCount();
 
-// simple debounce
-function debounce(fn, wait) {
-  let t;
-  return function(...args) {
-    clearTimeout(t);
-    t = setTimeout(() => fn.apply(this, args), wait);
-  };
-}
 
-// restore on load
-restoreDraft();
-updateStrengthUI();
-restoreTagsFromDOM();
+    // =================================================================
+    // 4. 客製訊息與即時驗證 (setCustomValidity) (微調密碼驗證邏輯)
+    // =================================================================
+
+    function displayError(input, message) {
+        const errorElementId = input.id + '-error';
+        const errorElement = document.getElementById(errorElementId);
+        
+        input.setCustomValidity(message);
+
+        if (errorElement) {
+            errorElement.textContent = message;
+            if (message) {
+                input.setAttribute('aria-invalid', 'true');
+            } else {
+                input.removeAttribute('aria-invalid');
+            }
+        }
+    }
+
+    function validateField(input) {
+        const value = input.value; // 避免 trim 影響密碼長度判斷
+        let errorMessage = '';
+
+        input.setCustomValidity(''); 
+        
+        // 1. 執行瀏覽器內建驗證 (required, type, minlength, pattern)
+        if (!input.checkValidity()) {
+            if (input.validity.valueMissing) {
+                errorMessage = '此欄位為必填。';
+            } else if (input.id === 'email' && input.validity.typeMismatch) {
+                errorMessage = '請輸入有效的 Email 格式。';
+            } else if (input.id === 'phone' && input.validity.patternMismatch) {
+                errorMessage = '手機號碼必須是 10 碼數字。';
+            } else if (input.id === 'password' && input.validity.tooShort) {
+                errorMessage = `密碼長度不足，請輸入至少 ${input.minLength} 碼。`;
+            } else if (input.id === 'password' && input.validity.patternMismatch) {
+                 // 雖然我們沒有設定 pattern, 但為了未來擴展保留
+                 errorMessage = '密碼格式不正確。';
+            } else if (input.id === 'terms' && !input.checked) {
+                errorMessage = '請務必勾選同意服務條款。';
+            }
+        }
+
+        // 2. 客製化驗證 (英數混合, 密碼一致性)
+        if (!errorMessage) { // 只有在原生驗證通過後才檢查客製化規則
+            if (input.id === 'password') {
+                // 密碼：英數混合 (至少一個字母，至少一個數字)
+                if (value.length >= 8 && (!/[a-zA-Z]/.test(value) || !/\d/.test(value))) {
+                    errorMessage = '密碼必須包含英文字母與數字。';
+                }
+            } else if (input.id === 'confirmPassword') {
+                // 確認密碼
+                if (value && value !== passwordInput.value) {
+                    errorMessage = '確認密碼與密碼不一致。';
+                }
+            }
+        }
+
+        // 3. 顯示客製錯誤
+        displayError(input, errorMessage);
+    }
+
+    const blurredFields = new Set();
+
+    formFields.forEach(field => {
+        field.addEventListener('blur', () => {
+            blurredFields.add(field.id);
+            validateField(field);
+        });
+
+        // input 時即時更新 (如果已經 blur 過)
+        field.addEventListener('input', () => {
+            if (blurredFields.has(field.id)) {
+                validateField(field);
+            }
+        });
+    });
+
+    // 特殊處理：確認密碼的即時驗證需要考慮密碼欄位的變動
+    passwordInput.addEventListener('input', () => {
+        if (blurredFields.has('confirmPassword')) {
+            validateField(document.getElementById('confirmPassword'));
+        }
+    });
+
+    // =================================================================
+    // 5. 送出攔截與防重送 (保持不變)
+    // =================================================================
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        if (submitBtn.disabled) return;
+
+        let isFormValid = true;
+        let firstInvalidField = null;
+
+        // 啟動所有欄位的驗證
+        formFields.forEach(field => {
+            blurredFields.add(field.id);
+            validateField(field); 
+            if (!field.checkValidity() && isFormValid) {
+                isFormValid = false;
+                firstInvalidField = field;
+            }
+        });
+
+        // 額外檢查興趣標籤
+        updateTagsCount();
+        const tagsValid = interestTagsContainer.querySelectorAll('input[type="checkbox"]:checked').length > 0;
+        if (!tagsValid && isFormValid) {
+            isFormValid = false;
+            firstInvalidField = document.getElementById('name'); // 聚焦到名稱欄位
+        }
+
+        if (!isFormValid) {
+            if (firstInvalidField) {
+                firstInvalidField.focus(); 
+            }
+            return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.classList.add('loading');
+        submitBtn.innerHTML = '送出中...';
+        successMessage.hidden = true;
+
+        setTimeout(() => {
+            console.log('表單資料已成功送出:', new FormData(form));
+
+            successMessage.hidden = false;
+            successMessage.focus();
+
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('loading');
+            submitBtn.innerHTML = '註冊';
+
+            localStorage.removeItem(STORAGE_KEY);
+            
+            // 延遲清空表單，讓使用者看到成功訊息 1 秒
+            setTimeout(resetForm, 1000); 
+
+        }, 1000);
+    });
+
+    // =================================================================
+    // 6. 實作「重設」按鈕 (保持不變)
+    // =================================================================
+
+    function resetForm() {
+        form.reset();
+        
+        document.querySelectorAll('.error-message').forEach(p => p.textContent = '');
+        document.querySelectorAll('[aria-invalid]').forEach(el => el.removeAttribute('aria-invalid'));
+        
+        // 重設密碼強度條
+        checkPasswordStrength(''); 
+        
+        document.querySelectorAll('.tag-label').forEach(label => label.classList.remove('selected'));
+        updateTagsCount();
+        
+        blurredFields.clear();
+
+        successMessage.hidden = true;
+
+        localStorage.removeItem(STORAGE_KEY);
+    }
+
+    resetBtn.addEventListener('click', resetForm);
+});
