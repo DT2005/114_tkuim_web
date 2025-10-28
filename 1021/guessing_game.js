@@ -29,7 +29,7 @@ function gameLoop() {
     // 使用一個 while(true) 來確保直到使用者輸入有效值或取消才會繼續
     while (!isValidInput) {
         // 2. 使用 prompt() 讀取使用者猜測
-        guessInput = prompt("請輸入您的猜測數字 (1-100)");
+        guessInput = prompt("輸入猜測數字 (1-100)");
 
         // 檢查使用者是否按了取消 (null) 或輸入了空值
         if (guessInput === null) {

@@ -1,0 +1,37 @@
+:root{
+  --accent:#1e88e5;
+  --danger:#d32f2f;
+  --ok:#2e7d32;
+  --muted:#6b6b6b;
+  --bg:#fbfbfd;
+}
+*{box-sizing:border-box}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:#111;margin:0;padding:24px}
+.container{max-width:720px;margin:0 auto;background:white;border-radius:8px;padding:20px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+h1{margin:0 0 16px;font-size:20px}
+.form-row{margin-bottom:14px}
+label{display:block;margin-bottom:6px;font-weight:600}
+input[type="text"], input[type="email"], input[type="tel"], input[type="password"]{
+  width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:6px;font-size:14px;
+}
+input:focus{outline:2px solid rgba(30,136,229,0.12);border-color:var(--accent)}
+.invalid-msg{color:var(--danger);margin:6px 0 0;font-size:13px;min-height:1em}
+.checkbox-row{display:flex;align-items:center;gap:8px}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{display:inline-flex;align-items:center;gap:6px;padding:6px 8px;border-radius:18px;border:1px solid #eee;background:#fafafa;cursor:pointer;font-size:14px}
+.tag input{margin:0}
+.tag.selected{background:linear-gradient(90deg, rgba(30,136,229,0.12), rgba(30,136,229,0.06));border-color:var(--accent);color:var(--accent)}
+.form-actions{display:flex;gap:10px;margin-top:10px;align-items:center}
+.btn{padding:8px 14px;border-radius:8px;border:0;background:var(--accent);color:white;cursor:pointer;font-weight:600}
+.btn[disabled]{opacity:0.6;cursor:not-allowed}
+.btn.btn-outline{background:transparent;border:1px solid #ccc;color:#333}
+.saved-note{margin-top:12px;color:var(--muted);font-size:13px;min-height:1.2em}
+
+/* password strength */
+.strength{display:flex;align-items:center;gap:8px;margin-top:8px}
+.bar{display:inline-block;height:8px;border-radius:6px;width:120px;background:#eee;position:relative;overflow:hidden}
+.bar::after{content:"";position:absolute;left:0;top:0;height:100%;width:0;background:var(--danger);transition:width .18s}
+.strength-text{font-size:13px;color:var(--muted)}
+.bar.weak::after{width:33%;background:var(--danger)}
+.bar.medium::after{width:66%;background:#f6a623}
+.bar.strong::after{width:100%;background:var(--ok)}

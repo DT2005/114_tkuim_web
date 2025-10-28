@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>報名表單練習</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container">
+    <h1>註冊 / 報名表單</h1>
+
+    <form id="signup-form" novalidate>
+      <!-- 姓名 -->
+      <div class="form-row">
+        <label for="name">姓名</label>
+        <input id="name" name="name" type="text" required aria-describedby="name-error" />
+        <p id="name-error" class="invalid-msg" aria-live="polite"></p>
+      </div>
+
+      <!-- Email -->
+      <div class="form-row">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required aria-describedby="email-error" inputmode="email" />
+        <p id="email-error" class="invalid-msg" aria-live="polite"></p>
+      </div>
+
+      <!-- 手機 -->
+      <div class="form-row">
+        <label for="phone">手機</label>
+        <input id="phone" name="phone" type="tel" required aria-describedby="phone-error" inputmode="numeric" maxlength="10" placeholder="0912345678"/>
+        <p id="phone-error" class="invalid-msg" aria-live="polite"></p>
+      </div>
+
+      <!-- 密碼 -->
+      <div class="form-row">
+        <label for="password">密碼</label>
+        <input id="password" name="password" type="password" required aria-describedby="password-error password-strength" />
+        <p id="password-error" class="invalid-msg" aria-live="polite"></p>
+        <div id="password-strength" class="strength" aria-hidden="false">
+          <span id="password-strength-bar" class="bar"></span>
+          <span id="password-strength-text" class="strength-text">弱</span>
+        </div>
+      </div>
+
+      <!-- 確認密碼 -->
+      <div class="form-row">
+        <label for="confirm">確認密碼</label>
+        <input id="confirm" name="confirm" type="password" required aria-describedby="confirm-error" />
+        <p id="confirm-error" class="invalid-msg" aria-live="polite"></p>
+      </div>
+
+      <!-- 興趣標籤 (checkbox group) -->
+      <fieldset class="form-row">
+        <legend>興趣標籤（請至少勾選 1 個）</legend>
+        <div id="interests" class="tags" role="group" aria-labelledby="interest-legend" aria-describedby="interest-error">
+          <label class="tag"><input type="checkbox" name="interest" value="music"> 音樂</label>
+          <label class="tag"><input type="checkbox" name="interest" value="sport"> 運動</label>
+          <label class="tag"><input type="checkbox" name="interest" value="movie"> 電影</label>
+          <label class="tag"><input type="checkbox" name="interest" value="code"> 程式</label>
+          <label class="tag"><input type="checkbox" name="interest" value="travel"> 旅遊</label>
+        </div>
+        <p id="interest-error" class="invalid-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <!-- 服務條款 -->
+      <div class="form-row">
+        <label class="checkbox-row">
+          <input id="terms" name="terms" type="checkbox" required aria-describedby="terms-error">
+          我已閱讀並同意服務條款
+        </label>
+        <p id="terms-error" class="invalid-msg" aria-live="polite"></p>
+      </div>
+
+      <!-- 控制按鈕 -->
+      <div class="form-actions">
+        <button id="submit-btn" type="submit" class="btn">送出</button>
+        <button id="reset-btn" type="button" class="btn btn-outline">重設</button>
+      </div>
+      <div class="saved-note" id="saved-note" aria-live="polite"></div>
+    </form>
+  </main>
+
+  <script src="signup_form.js"></script>
+</body>
+</html>
