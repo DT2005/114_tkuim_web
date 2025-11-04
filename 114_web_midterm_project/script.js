@@ -2,10 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- DOM 元素獲取 ---
     const gameSection = document.getElementById('game-section');
     const resultSection = document.getElementById('result-section');
-    // **修正點 1: 修正為 HTML 中的 ID 'feedback-form-section'**
     const feedbackFormSection = document.getElementById('feedback-form-section'); 
     
-    const gameBoard = document.getElementById('game-board'); // **修正點 2: 新增 gameBoard 獲取，解決遊戲未啟動問題**
+    const gameBoard = document.getElementById('game-board'); 
     
     const startButton = document.getElementById('start-button');
     const scoreDisplay = document.getElementById('score');
@@ -19,17 +18,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 遊戲變數 ---
     let score = 0;
-    const GAME_DURATION = 30; // 要求 1: 遊戲總時間 30 秒
+    const GAME_DURATION = 30; 
     let timeLeft = GAME_DURATION; 
     let lastHole;
     let timeUp = false;
     let gameInterval;
     let moleTimer;
     const HOLE_COUNT = 9; 
-    const WARNING_TIME = 5; // 要求 1: 剩餘 5 秒觸發警告
+    const WARNING_TIME = 5; 
 
     // --- 遊戲初始化與介面設置 ---
-    
     function setupGame() {
         gameBoard.innerHTML = '';
         for (let i = 0; i < HOLE_COUNT; i++) {
@@ -52,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- 遊戲邏輯函數 ---
-
     function pickRandomHole() {
         const holes = document.querySelectorAll('.hole');
         const idx = Math.floor(Math.random() * holes.length);
@@ -104,10 +101,10 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(gameInterval);
         clearTimeout(moleTimer);
         
-        // 要求 2: 切換到分數總結介面
+
         gameSection.classList.add('d-none');
         resultSection.classList.remove('d-none');
-        feedbackFormSection.classList.add('d-none'); // 確保表單是隱藏的
+        feedbackFormSection.classList.add('d-none'); 
 
         finalScoreDisplay.textContent = score;
         
@@ -117,11 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- 計時器與開始按鈕 ---
-    
     startButton.addEventListener('click', () => {
         if (timeUp || startButton.disabled) return;
         
-        // 重置狀態
         score = 0;
         timeLeft = GAME_DURATION;
         timeUp = false;
@@ -133,7 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
         startButton.disabled = true;
         startButton.textContent = '遊戲中...';
         
-        // 介面切換
         resultSection.classList.add('d-none');
         feedbackFormSection.classList.add('d-none');
         gameSection.classList.remove('d-none');
@@ -143,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
             timeLeft--;
             timeLeftDisplay.textContent = timeLeft;
             
-            // 要求 1: 剩餘五秒提示
             if (timeLeft <= WARNING_TIME && timeLeft > 0) {
                 timerWarning.textContent = `剩餘 ${timeLeft} 秒！`;
                 timerWarning.classList.remove('d-none');
@@ -161,13 +154,12 @@ document.addEventListener('DOMContentLoaded', () => {
         popUp(); 
     });
 
-    // --- 介面切換邏輯 (滿足要求 2) ---
+
 
     // 顯示表單
     openFeedbackButton.addEventListener('click', () => {
         resultSection.classList.add('d-none');
         feedbackFormSection.classList.remove('d-none');
-        // 確保表單在第一次打開時，樣式是乾淨的
         feedbackForm.reset();
         feedbackForm.classList.remove('was-validated');
         formMessage.textContent = '';
@@ -176,7 +168,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 表單處理與驗證 ---
     
-    // 自訂 Email 驗證邏輯 (要求 4)
     function validateEmailFormat(email) {
         // 接受 @gmail.com 或 @o365.tku.edu.tw
         const pattern = /^(.*)@(gmail\.com|o365\.tku\.edu\.tw)$/i; 
@@ -186,24 +177,20 @@ document.addEventListener('DOMContentLoaded', () => {
     feedbackForm.addEventListener('submit', function(event) {
         event.preventDefault();
         
-        // 確保所有必填項被檢查 (包括 radio button 和 email)
         this.classList.add('was-validated');
 
         const emailInput = document.getElementById('username');
         
-        // 執行自訂 email 格式驗證
         if (!validateEmailFormat(emailInput.value)) {
-            // 設置 HTML5 Constraint Validation API 的錯誤狀態
             emailInput.setCustomValidity("Invalid format"); 
             emailInput.reportValidity(); 
             formMessage.textContent = '帳號格式不正確，請重新檢查。';
             formMessage.className = 'mt-3 text-center text-danger';
             return;
         } else {
-             emailInput.setCustomValidity(""); // 清除錯誤訊息
+             emailInput.setCustomValidity(""); 
         }
         
-        // 如果通過所有內建和自訂驗證
         if (this.checkValidity()) {
             // 獲取數據 (要求 3: 確保 checked 的 radio value 被讀取)
             const satisfaction = document.querySelector('input[name="satisfaction"]:checked').value;

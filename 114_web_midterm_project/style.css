@@ -1,39 +1,63 @@
-/* 基礎設定與字體 */
+/* --- 基礎設定與重設 --- */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f8f9fa; /* 淺灰色背景 */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e9ecef;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
-/* 遊戲區塊樣式 */
+main {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
 #game-section {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); 
+    border-top: 5px solid #0d6efd; 
+}
+
+/* 計分板樣式 */
+.d-flex.justify-content-between {
+    background-color: #f1f3f5;
+    border: 1px solid #ccc;
+    padding: 15px !important;
+    border-radius: 8px;
+}
+
+.btn-success {
+    font-weight: bold;
 }
 
 /* 遊戲場地 - 網格 */
 #game-board {
     min-height: 350px; 
+    padding: 15px;
+    background-color: #b08d57;
+    border-radius: 8px;
+    box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* 地鼠洞 (Mole Hole) 樣式 */
+/* --- 地鼠洞樣式 --- */
 .hole-container {
     display: flex;
     justify-content: center;
-    align-items: flex-end; 
+    align-items: center; 
     height: 100%;
     padding: 10px;
 }
 
 .hole {
-    width: 100px; 
-    height: 100px;
-    background-color: #8B4513; /* 土色 */
+    width: 100%;
+    max-width: 120px;
+    aspect-ratio: 1 / 1; 
+    background-color: #804e2b;
     border-radius: 50%;
     cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="%23FF0000" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>'), pointer; 
-    transition: transform 0.2s ease-out;
-    box-shadow: inset 0 -10px 10px rgba(0, 0, 0, 0.4);
+    transition: transform 0.15s ease-out;
+    box-shadow: inset 0 -15px 15px rgba(0, 0, 0, 0.5);
     position: relative; 
     overflow: hidden;
 }
@@ -42,44 +66,80 @@ body {
 .mole {
     width: 80%;
     height: 80%;
-    background-color: #5D4037; 
+    background-color: #796762; 
     border-radius: 50%;
     position: absolute;
-    bottom: 0;
+    bottom: 0; 
     left: 50%;
-    transform: translate(-50%, 100%); 
-    transition: transform 0.2s ease-out;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    transform: translate(-50%, 100%);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.6);
+    z-index: 10;
 }
 
 /* 地鼠出現的狀態 */
 .hole.up .mole {
-    transform: translate(-50%, 10%); 
+    transform: translate(-50%, 5%); 
+    z-index: 11;
 }
 
 /* 擊中動畫 */
 .hole.hit .mole {
     background-color: #FFD700; 
+    transform: translate(-50%, 25%) scale(0.9); 
 }
 
-/* RWD 調整 */
-@media (max-width: 576px) {
-    .hole {
-        width: 60px;
-        height: 60px;
-    }
-    .btn-group .btn {
-        font-size: 0.75rem; /* 縮小按鈕文字 */
-    }
-}
-
-/* 剩五秒提示樣式 (針對要求 1) */
+/* --- 警告樣式 --- */
 .warning-active {
-    animation: pulse 1s infinite;
+    animation: pulse 0.8s infinite alternate;
+    color: #dc3545 !important; 
 }
 
 @keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.1); opacity: 0.8; }
-    100% { transform: scale(1); opacity: 1; }
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0.7; transform: scale(1.05); }
+}
+
+@media (max-width: 768px) {
+    .hole {
+        max-width: 90px;
+    }
+    #game-section {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .hole {
+        max-width: 70px;
+    }
+    .btn-group .btn {
+        font-size: 0.7rem;
+        padding: 0.4rem 0.5rem;
+    }
+}
+
+/* --- 結果與表單區塊樣式 --- */
+#result-section, #feedback-form-section {
+    border-radius: 10px;
+    margin-top: 25px;
+}
+
+#result-section {
+    border: 2px solid #ffc107; 
+}
+
+#feedback-form-section {
+    border: 3px solid #0d6efd; 
+}
+
+.btn-group .btn {
+    border-radius: 0;
+}
+.btn-group > .btn:first-child { border-top-left-radius: 0.25rem; border-bottom-left-radius: 0.25rem; }
+.btn-group > .btn:last-child { border-top-right-radius: 0.25rem; border-bottom-right-radius: 0.25rem; }
+
+
+.modal-header.bg-success {
+    background-color: #198754 !important;
 }
