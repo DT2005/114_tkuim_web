@@ -1,0 +1,85 @@
+/* 基礎設定與字體 */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa; /* 淺灰色背景 */
+}
+
+/* 遊戲區塊樣式 */
+#game-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 遊戲場地 - 網格 */
+#game-board {
+    min-height: 350px; 
+}
+
+/* 地鼠洞 (Mole Hole) 樣式 */
+.hole-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; 
+    height: 100%;
+    padding: 10px;
+}
+
+.hole {
+    width: 100px; 
+    height: 100px;
+    background-color: #8B4513; /* 土色 */
+    border-radius: 50%;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="%23FF0000" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>'), pointer; 
+    transition: transform 0.2s ease-out;
+    box-shadow: inset 0 -10px 10px rgba(0, 0, 0, 0.4);
+    position: relative; 
+    overflow: hidden;
+}
+
+/* 地鼠樣式 */
+.mole {
+    width: 80%;
+    height: 80%;
+    background-color: #5D4037; 
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 100%); 
+    transition: transform 0.2s ease-out;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* 地鼠出現的狀態 */
+.hole.up .mole {
+    transform: translate(-50%, 10%); 
+}
+
+/* 擊中動畫 */
+.hole.hit .mole {
+    background-color: #FFD700; 
+}
+
+/* RWD 調整 */
+@media (max-width: 576px) {
+    .hole {
+        width: 60px;
+        height: 60px;
+    }
+    .btn-group .btn {
+        font-size: 0.75rem; /* 縮小按鈕文字 */
+    }
+}
+
+/* 剩五秒提示樣式 (針對要求 1) */
+.warning-active {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}

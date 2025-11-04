@@ -16,14 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const strengthBar = document.getElementById('password-strength-bar');
     const strengthInfo = document.getElementById('password-strength-info');
 
-    // =================================================================
     // 1. 本地儲存 (localStorage) 暫存欄位內容 (進階功能)
-    // =================================================================
     const STORAGE_KEY = 'signupFormData';
 
-    /**
-     * 從 localStorage 載入資料並恢復表單
-     */
+    
+    //從 localStorage 載入資料並恢復表單
     function loadFormData() {
         const storedData = localStorage.getItem(STORAGE_KEY);
         if (storedData) {
@@ -32,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (field.type === 'checkbox') {
                     field.checked = data[field.name] === 'on';
                 } else if (field.name !== 'password' && field.name !== 'confirmPassword') {
-                    // 不恢復密碼欄位，以策安全
+
                     field.value = data[field.name] || '';
                 }
             });
@@ -75,14 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
     loadFormData();
     form.addEventListener('input', saveFormData);
 
-    // =================================================================
     // 2. 密碼強度條 (修正核心邏輯)
-    // =================================================================
-
-    /**
-     * 檢查密碼強度並更新 UI
-     * @param {string} password 
-     */
+    //檢查密碼強度並更新 UI
     function checkPasswordStrength(password = passwordInput.value) {
         let strength = 0;
         let info = '密碼強度：無';
@@ -97,18 +88,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // 計分規則
-        if (password.length >= 8) {
-            strength++; // 8 碼長度
+        if (password.length >= 8) {strength++; // 8 碼長度
         }
-        if (/[a-z]/.test(password) && /[A-Z]/.test(password)) {
-            strength++; // 包含大小寫字母
+        if (/[a-z]/.test(password) && /[A-Z]/.test(password)) {strength++; // 包含大小寫字母
         }
-        if (/\d/.test(password)) {
-            strength++; // 包含數字
+        if (/\d/.test(password)) {strength++; // 包含數字
         }
-        if (/[^a-zA-Z0-9]/.test(password)) {
-            strength++; // 包含特殊符號
+        if (/[^a-zA-Z0-9]/.test(password)) { strength++; // 包含特殊符號
         }
         
         // 根據計分設置強度等級
@@ -137,10 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
     checkPasswordStrength(); 
 
 
-    // =================================================================
     // 3. 事件委派：興趣標籤 (保持不變)
-    // =================================================================
-
     function updateTagsCount() {
         const checkedCount = interestTagsContainer.querySelectorAll('input[type="checkbox"]:checked').length;
         tagsCountElement.textContent = `已勾選 ${checkedCount} 個`;
@@ -168,11 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateTagsCount();
 
-
-    // =================================================================
     // 4. 客製訊息與即時驗證 (setCustomValidity) (微調密碼驗證邏輯)
-    // =================================================================
-
     function displayError(input, message) {
         const errorElementId = input.id + '-error';
         const errorElement = document.getElementById(errorElementId);
@@ -206,7 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (input.id === 'password' && input.validity.tooShort) {
                 errorMessage = `密碼長度不足，請輸入至少 ${input.minLength} 碼。`;
             } else if (input.id === 'password' && input.validity.patternMismatch) {
-                 // 雖然我們沒有設定 pattern, 但為了未來擴展保留
                  errorMessage = '密碼格式不正確。';
             } else if (input.id === 'terms' && !input.checked) {
                 errorMessage = '請務必勾選同意服務條款。';
@@ -255,9 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // =================================================================
     // 5. 送出攔截與防重送 (保持不變)
-    // =================================================================
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -315,10 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     });
 
-    // =================================================================
     // 6. 實作「重設」按鈕 (保持不變)
-    // =================================================================
-
     function resetForm() {
         form.reset();
         
