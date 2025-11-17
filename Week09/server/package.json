@@ -1,0 +1,30 @@
+{
+  "name": "114_tkuim_web",
+  "version": "1.0.0",
+  "description": "資管3C 網路程式設計",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DT2005/114_tkuim_web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/DT2005/114_tkuim_web/issues"
+  },
+  "homepage": "https://github.com/DT2005/114_tkuim_web#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "nanoid": "^5.1.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
