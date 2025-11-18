@@ -1,0 +1,76 @@
+# 專案啟動指南 (Setup & Launch)
+# 環境需求
+
+* Runtime: Node.js (建議 v18 或更高版本)
+* 套件管理: npm
+* API 測試工具: Postman 或 VS Code (REST Client)
+
+## 步驟 1: 後端啟動 
+
+1.  進入專案目錄：
+    cd <你的專案路徑>/Week09/server
+
+2.  啟動開發伺服器：
+    npm run dev => 啟動，nodemon會自動監控檔案變動。
+    成功啟動後，終端機應顯示： Server ready on http://localhost:3001
+
+## 步驟 2: 前端啟動 
+
+ 進入前端目錄執行 'npm run dev'。 
+
+---
+
+# API 端點與測試 
+伺服器 API 運行於 'http://localhost:3001'。
+
+###  服務端點一覽
+
+| 方法 | 端點 (Endpoint) | 說明 | 預期狀態碼 |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/health` | 服務健康檢查，確認伺服器是否運行。 | `200 OK` |
+| `POST` | `/api/signup` | 處理使用者註冊請求。 | `201 Created` |
+
+### 方式 1: 使用 Postman (GUI 介面測試)
+
+Postman 適合驗證複雜的 JSON 結構和測試腳本。
+
+#### POST /api/signup 範例：
+
+* **方法:** `POST`
+* **URL:** `{{baseUrl}}/api/signup` (若已設定 `baseUrl=http://localhost:3001`)
+* **Headers:** `Content-Type: application/json`
+* **Body (raw JSON):**
+    ```json
+    {
+      "name": "Postman 測試者",
+      "email": "postman@example.com",
+      "phone": "0912345678",
+      "password": "postmanPass123",
+      "confirmPassword": "postmanPass123",
+      "interests": ["前端", "後端"],
+      "terms": true
+    }
+    ```
+
+### 方式 2: 使用 VS Code REST Client (`.http` 測試)
+
+建立一個 `.http` 檔案，將以下內容貼入，點擊 **"Send Request"** 執行。
+
+```http
+### 測試 1: 服務健康檢查
+GET http://localhost:3001/health
+Accept: application/json
+
+### 測試 2: 使用者註冊 (POST)
+POST http://localhost:3001/api/signup
+Content-Type: application/json
+
+{
+  "name": "VSCode 測試者",
+  "email": "vscode@example.com",
+  "phone": "0911222333",
+  "password": "vscodePass123",
+  "confirmPassword": "vscodePass123",
+  "interests": ["資料庫", "部署"],
+  "terms": true
+}

@@ -4,6 +4,8 @@
   "description": "資管3C 網路程式設計",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon app.js",
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -13,7 +15,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/DT2005/114_tkuim_web/issues"
   },
@@ -27,4 +29,6 @@
   "devDependencies": {
     "nodemon": "^3.1.11"
   }
+  
 }
+
