@@ -1,76 +1,120 @@
-# 專案啟動指南 (Setup & Launch)
-# 環境需求
+# Week 09 - 註冊表單與 Node.js API 整合專案
 
-* Runtime: Node.js (建議 v18 或更高版本)
-* 套件管理: npm
-* API 測試工具: Postman 或 VS Code (REST Client)
-
-## 步驟 1: 後端啟動 
-
-1.  進入專案目錄：
-    cd <你的專案路徑>/Week09/server
-
-2.  啟動開發伺服器：
-    npm run dev => 啟動，nodemon會自動監控檔案變動。
-    成功啟動後，終端機應顯示： Server ready on http://localhost:3001
-
-## 步驟 2: 前端啟動 
-
- 進入前端目錄執行 'npm run dev'。 
+本專案為 Week 09 作業，旨在練習前後端整合。前端使用原生 HTML/JS 製作報名表單，後端使用 Node.js (Express) 建置 RESTful API，並實作資料驗證、防重複報名與查看清單功能。
 
 ---
 
-# API 端點與測試 
-伺服器 API 運行於 'http://localhost:3001'。
+## 環境需求 (Prerequisites)
 
-###  服務端點一覽
+在開始之前，請確保您的電腦已安裝以下環境：
 
-| 方法 | 端點 (Endpoint) | 說明 | 預期狀態碼 |
+1.  Node.js: 檢查指令: 'de -v'
+2.  VS Code: 建議使用的程式碼編輯器。
+3.  VS Code 擴充套件:
+    Live Server: 用於啟動前端頁面。
+    REST Client: 用於在編輯器內直接測試 API。
+
+---
+
+##  啟動步驟 (Installation & Startup)
+
+分為「後端 (Server)」與「前端 (Client)」兩個部分，需分別啟動。
+
+### 1. 啟動後端伺服器 (Backend)
+後端負責處理資料邏輯與 API 回應。
+
+1.  開啟終端機 (Terminal)。
+2.  進入 'server' 資料夾：
+    指令 : cd server
+
+3.  安裝依賴套件：
+    讀取 'package.json' 並安裝 express, cors, dotenv 等套件。
+    指令 : npm install
+    
+4.  啟動開發伺服器：
+    使用 nodemon 模式啟動，存檔時會自動重啟伺服器。
+    指令 : npm run dev
+
+5.  啟動成功確認：
+    終端機應顯示以下訊息，代表後端已就緒：
+    > 'Server is running on http://localhost:3001'
+
+### 2. 啟動前端頁面 (Frontend)
+
+前端負責顯示表單介面與串接後端。
+
+1.  使用 VS Code 開啟 'Week09' 專案資料夾。
+2.  在檔案總管中找到 'client/signup_form.html'。
+3.  啟動方式 (Live Server)：
+    在檔案上點擊滑鼠右鍵，選擇 "Open with Live Server"。
+    或者點擊 VS Code 視窗右下角的 "Go Live" 按鈕。
+4.  瀏覽器將會自動彈出視窗，顯示報名表單頁面。
+
+---
+
+## API 端點文件 (API Documentation)
+
+後端伺服器 Base URL: 'http://localhost:3001'
+
+### 1. 提交報名 (POST)
+用於接收前端表單資料，並進行驗證與儲存。
+
+URL: '/api/signup'
+Method: 'POST'
+Headers: 'Content-Type: application/json'
+請求參數 (Request Body):
+
+| 參數名稱 | 類型 | 必填 | 說明 |
 | :--- | :--- | :--- | :--- |
-| `GET` | `/health` | 服務健康檢查，確認伺服器是否運行。 | `200 OK` |
-| `POST` | `/api/signup` | 處理使用者註冊請求。 | `201 Created` |
+| 'name' | String | 是 | 報名者姓名 |
+| 'email' | String | 是 | Email (作為防重複依據) |
+| 'phone' | String | 是 | 手機號碼 (需為 09 開頭的 10 碼數字) |
 
-### 方式 1: 使用 Postman (GUI 介面測試)
-
-Postman 適合驗證複雜的 JSON 結構和測試腳本。
-
-#### POST /api/signup 範例：
-
-* **方法:** `POST`
-* **URL:** `{{baseUrl}}/api/signup` (若已設定 `baseUrl=http://localhost:3001`)
-* **Headers:** `Content-Type: application/json`
-* **Body (raw JSON):**
-    ```json
+成功回應 (201 Created):
     {
-      "name": "Postman 測試者",
-      "email": "postman@example.com",
-      "phone": "0912345678",
-      "password": "postmanPass123",
-      "confirmPassword": "postmanPass123",
-      "interests": ["前端", "後端"],
-      "terms": true
+      "message": "報名成功",
+      "user": { ...資料內容... }
     }
-    ```
 
-### 方式 2: 使用 VS Code REST Client (`.http` 測試)
+失敗回應 (400 Bad Request):
+    * 欄位缺漏
+    * 手機格式錯誤
+    * Email 重複
 
-建立一個 `.http` 檔案，將以下內容貼入，點擊 **"Send Request"** 執行。
+### 2. 查看報名清單 (GET)
+用於取得目前伺服器暫存的所有報名資料。
 
-```http
-### 測試 1: 服務健康檢查
-GET http://localhost:3001/health
-Accept: application/json
+URL: '/api/signup'
+Method: 'GET'
+成功回應 (200 OK):
+    {
+      "total": 2,
+      "data": [
+        { "name": "User1", ... },
+        { "name": "User2", ... }
+      ]
+    }
 
-### 測試 2: 使用者註冊 (POST)
-POST http://localhost:3001/api/signup
-Content-Type: application/json
+##  測試方式與指令 (Testing Instructions)
 
-{
-  "name": "VSCode 測試者",
-  "email": "vscode@example.com",
-  "phone": "0911222333",
-  "password": "vscodePass123",
-  "confirmPassword": "vscodePass123",
-  "interests": ["資料庫", "部署"],
-  "terms": true
-}
+本專案提供三種測試方式，請確保後端 ('npm run dev') 已啟動後再進行測試。
+
+### 方式一：VS Code REST Client 
+1.  在 VS Code 中開啟 'tests/api.http' 檔案。
+2.  你可以看到檔案中有 'POST' 與 'GET' 的請求區塊。
+3.  點擊請求網址上方的 Send Request 小字。
+4.  右側視窗將即時顯示伺服器回傳的 JSON 結果。
+
+### 方式二：Postman
+1.  開啟 Postman 軟體。
+2.  點擊左上角的 Import 按鈕。
+3.  選擇專案資料夾內的 'tests/signup_collection.json' 檔案進行匯入。
+4.  在左側 Collections 列表中選擇 Week09 Signup Collection。
+5.  選擇 POST Signup 點擊 Send 測試報名。
+6.  選擇 GET Signup List 點擊 Send 測試查看清單。
+
+### 方式三：Curl / Terminal 指令
+終端機 (PowerShell 或 Bash) 執行：
+
+1. 測試報名 (POST):
+curl -X POST http://localhost:3001/api/signup -H "Content-Type: application/json" -d '{"name":"測試人員","email":"curl_test@example.com","phone":"0911222333"}'

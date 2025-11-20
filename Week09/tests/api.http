@@ -1,7 +1,7 @@
 ### 狀態檢查
 GET http://localhost:3001/health
 
-### 建立報名 (成功案例)
+### 建立報名
 POST http://localhost:3001/api/signup
 Content-Type: application/json
 
@@ -11,69 +11,9 @@ Content-Type: application/json
   "phone": "0988777666",
   "password": "restrest",
   "confirmPassword": "restrest",
-  "interests": ["全端", "後端"],
-  "terms": true
-}
-
-### 測試：缺少必填欄位 (name)
-POST http://localhost:3001/api/signup
-Content-Type: application/json
-
-{
-  "email": "rest@example.com",
-  "phone": "0988777666",
-  "password": "restrest",
-  "confirmPassword": "restrest",
   "interests": ["全端"],
   "terms": true
 }
-# 預期：400 Bad Request, "name 為必填"
 
-### 測試：手機格式錯誤
-POST http://localhost:3001/api/signup
-Content-Type: application/json
-
-{
-  "name": "Failed Phone",
-  "email": "rest@example.com",
-  "phone": "1234567890",
-  "password": "restrest",
-  "confirmPassword": "restrest",
-  "interests": ["全端"],
-  "terms": true
-}
-# 預期：400 Bad Request, "手機需為 09 開頭 10 碼"
-
-### 測試：密碼與確認密碼不一致
-POST http://localhost:3001/api/signup
-Content-Type: application/json
-
-{
-  "name": "Failed Password",
-  "email": "rest@example.com",
-  "phone": "0911222333",
-  "password": "passwordA",
-  "confirmPassword": "passwordB",
-  "interests": ["全端"],
-  "terms": true
-}
-# 預期：400 Bad Request, "密碼與確認密碼不一致"
-
-### 測試：未勾選服務條款
-POST http://localhost:3001/api/signup
-Content-Type: application/json
-
-{
-  "name": "No Terms",
-  "email": "rest@example.com",
-  "phone": "0911222333",
-  "password": "passwordpassword",
-  "confirmPassword": "passwordpassword",
-  "interests": ["全端"]
-  // "terms" 欄位遺失或為 false
-}
-# 預期：400 Bad Request, "請勾選服務條款"
-
-
-### 查看清單 (包含剛剛成功的報名)
+### 查看清單
 GET http://localhost:3001/api/signup

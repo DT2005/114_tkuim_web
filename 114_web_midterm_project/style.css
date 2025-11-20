@@ -1,7 +1,12 @@
 /* --- 基礎設定與重設 --- */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #e9ecef;
+    /* 📌 這裡：將背景顏色改成草地圖片 */
+    background-image: url('image/草地.jpg'); 
+    background-size: cover; /* 讓圖片覆蓋整個視窗 */
+    background-repeat: no-repeat; /* 不重複圖片 */
+    background-attachment: fixed; /* 讓背景固定，不隨滾動條移動 */
+    background-position: center center; /* 圖片居中 */
     padding-top: 20px;
     padding-bottom: 20px;
 }
@@ -16,7 +21,7 @@ main {
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); 
-    border-top: 5px solid #0d6efd; 
+    border-top: 5px solid #26cbce; 
 }
 
 /* 計分板樣式 */
@@ -25,6 +30,18 @@ main {
     border: 1px solid #ccc;
     padding: 15px !important;
     border-radius: 8px;
+}
+/* 🕒 剩餘時間與分數文字加大 */
+#time-left,
+#score {
+  font-size: 3rem;        /* 字變大 */
+  font-weight: bold;      /* 加粗 */
+  color: #1a7f4d;         /* 深綠字色（妳可以改成喜歡的） */
+}
+
+/* 想讓數字更可愛一點的話： */
+#score {
+  color: #ffb400;         /* 分數用亮金色，凸顯得分感 */
 }
 
 .btn-success {
@@ -35,9 +52,13 @@ main {
 #game-board {
     min-height: 350px; 
     padding: 15px;
-    background-color: #b08d57;
+    background-image: url('image/土壤.jpg'); 
+    background-size: cover; /* 讓圖片覆蓋整個遊戲板 */
+    background-repeat: repeat; /* 可以讓土壤紋理重複平鋪 */
+    background-position: center center;
     border-radius: 8px;
     box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.3);
+    cursor: url('image/hammer.cur') 16 16,auto;
 }
 
 /* --- 地鼠洞樣式 --- */
@@ -50,43 +71,83 @@ main {
 }
 
 .hole {
-    width: 100%;
-    max-width: 120px;
-    aspect-ratio: 1 / 1; 
-    background-color: #804e2b;
-    border-radius: 50%;
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="%23FF0000" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>'), pointer; 
-    transition: transform 0.15s ease-out;
-    box-shadow: inset 0 -15px 15px rgba(0, 0, 0, 0.5);
-    position: relative; 
+    position: relative;
+    width: 120px;   /* 洞的寬度 */
+    height: 100px;  /* 洞的高度 */
     overflow: hidden;
+    border-radius: 50%;
+    background: #b5744e; /* 洞的顏色，可自行調 */
+    box-shadow: inset 0 5px 15px rgba(0,0,0,0.3);
+    margin: 10px;
 }
-
+/* --- 開始遊戲按鈕放大樣式 --- */
+#start-button {
+    /* 增加字體大小，讓按鈕看起來更大 */
+    font-size: 1.5rem; 
+    
+    /* 增加垂直和水平內邊距，擴大按鈕的點擊區域 */
+    padding: 0.75rem 2rem; 
+    
+    /* 可選：增加圓角，讓按鈕看起來更柔和 */
+    border-radius: 8px;
+    
+    /* 可選：增加陰影，讓按鈕有立體感 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 /* 地鼠樣式 */
 .mole {
-    width: 80%;
-    height: 80%;
-    background-color: #796762; 
-    border-radius: 50%;
     position: absolute;
-    bottom: 0; 
+    bottom: -40px; /* ↓ 這個距離控制「藏在洞裡」的深度 */
     left: 50%;
     transform: translate(-50%, 100%);
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.6);
-    z-index: 10;
+    width: 160px;
+    height: 140px;
+    background-image: url('image/小桃飛鼠.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    filter :0.2s ease-out, /* 添加 filter 過渡 */
+                box-shadow 0.2s ease-out; /* 添加 box-shadow 過渡 */
+    cursor: url('image/hammer.cur') 16 16, pointer;
 }
+
+.hole.up .mole {
+    transform: translate(-50%, 0);
+}
+
 
 /* 地鼠出現的狀態 */
 .hole.up .mole {
-    transform: translate(-50%, 5%); 
+    transform: translate(-50%, -30%); 
     z-index: 11;
 }
 
 /* 擊中動畫 */
 .hole.hit .mole {
-    background-color: #FFD700; 
+    background-color: #99cef4; 
     transform: translate(-50%, 25%) scale(0.9); 
+
+    filter: brightness(1.5); /* 讓地鼠更亮 */
+    box-shadow: 0 0 15px 5px rgba(255, 255, 0, 0.7); /* 模擬發光 */
+    opacity: 0.3;
+}
+
+.mole-dizzy {
+    /* 替換為被擊中後的圖片 */
+    background-image: url('image/被打的小桃.jpg') !important; 
+    
+    /* 確保尺寸和定位與原本的地鼠一致 */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    animation: dizzy-shake 0.2s ease-in-out infinite alternate;
+}
+
+/* 確保地鼠在被擊中時的動畫能作用在新的圖片上 */
+.hole.hit .mole-dizzy {
+    transform: translate(-50%, 35%) scaleX(1.1) scaleY(0.8); 
+    opacity: 0.5; 
 }
 
 /* --- 警告樣式 --- */
@@ -120,26 +181,72 @@ main {
 }
 
 /* --- 結果與表單區塊樣式 --- */
+
 #result-section, #feedback-form-section {
     border-radius: 10px;
     margin-top: 25px;
-}
 
+}
 #result-section {
-    border: 2px solid #ffc107; 
+    border: 2px solid #ffc107;
+    font-size: 1.1rem;
 }
-
-#feedback-form-section {
-    border: 3px solid #0d6efd; 
+.btn-pink {
+  background-color: #7b9de6; /* 小桃粉 */
+  border: none;
+  color: white;
+  font-weight: bold;
+  transition: 0.3s;
+}
+.btn-pink:hover {
+  background-color: #4a658e; 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(255, 182, 193, 0.4);
 }
 
 .btn-group .btn {
     border-radius: 0;
+
 }
 .btn-group > .btn:first-child { border-top-left-radius: 0.25rem; border-bottom-left-radius: 0.25rem; }
 .btn-group > .btn:last-child { border-top-right-radius: 0.25rem; border-bottom-right-radius: 0.25rem; }
-
-
-.modal-header.bg-success {
-    background-color: #198754 !important;
+div.modal-header.bg-success {
+  background-color: #4c5eb9 !important;
+  color: #fff !important;
 }
+
+
+@keyframes score-celebrate {
+    0% { 
+        transform: scale(1); 
+        color: #000; 
+        text-shadow: none; 
+    }
+    50% { 
+        transform: scale(1.2); /* 放大 */
+        color: #ffc107; /* 變為金色 */
+        /* 添加發光效果，模擬慶祝閃光 */
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 
+                     0 0 20px rgba(255, 165, 0, 0.5); 
+    }
+    100% { 
+        transform: scale(1); 
+        color: #000; 
+        text-shadow: none; 
+    }
+}
+.score-highlight { 
+    display: inline-block; 
+    font-size: 2.5rem; 
+    font-weight: bold;
+    animation: score-celebrate 0.8s ease-in-out 3; 
+}
+/* 💚 只有按下「滿意」時變成淺綠色 */
+.btn-check#satisfied:checked + label[for="satisfied"] {
+  background-color: #a8e6a3 !important;  /* 淺綠色底 */
+  border-color: #7ecb8a !important;      /* 邊框稍深 */
+  color: #155724 !important;             /* 字體深綠 */
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(168, 230, 163, 0.6); /* 淺綠光暈～ */
+}
+
