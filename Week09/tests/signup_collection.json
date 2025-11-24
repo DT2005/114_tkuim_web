@@ -1,0 +1,91 @@
+{
+	"info": {
+		"_postman_id": "cbad3932-6848-489c-bce4-b4f57aedb8b3",
+		"name": "Week09 Signup Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "50160169",
+		"_collection_link": "https://ab919055-1615956.postman.co/workspace/%E9%BB%83%E9%88%BA%E5%A9%B7's-Workspace~77578fde-1a83-4e9b-8923-ccecb89e3b2e/collection/50160169-cbad3932-6848-489c-bce4-b4f57aedb8b3?action=share&source=collection_link&creator=50160169"
+	},
+	"item": [
+		{
+			"name": "POST測試",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"測試同學\",\r\n  \"email\": \"test@example.com\",\r\n  \"phone\": \"0912345678\",\r\n  \"password\": \"abc12345\",\r\n  \"confirmPassword\": \"abc12345\",\r\n  \"interests\": [\"前端\", \"後端\"],\r\n  \"terms\": true\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET測試",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/api/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

@@ -16,17 +16,28 @@ form.addEventListener('submit', async (event) => {
   event.preventDefault();
 
   const formData = new FormData(form);
+  // 注意：這裡假設你的 HTML input name="phone"，如果你的叫做 "tel" 或 "mobile"，請將下方的 payload.phone 改成對應名稱
   const payload = {
-    id: Date.now(), 
+    id: Date.now(),
     ...Object.fromEntries(formData),
     createdAt: new Date().toISOString()
   };
 
   updateLoadingState(true, submitBtn, '處理中...', '送出');
-  resultEl.textContent = '正在儲存資料...';
+  resultEl.textContent = '正在驗證並儲存資料...';
   resultEl.classList.remove('text-danger', 'text-success');
 
   try {
+    // --- 【新增】電話號碼驗證區域 ---
+    // Regex 解釋: ^09 代表以09開頭, \d{8} 代表後面接著8個數字, $ 代表結束
+    const phonePattern = /^09\d{8}$/;
+    
+    // 這裡假設你 HTML 的 input name 是 "phone"
+    if (!payload.phone || !phonePattern.test(payload.phone)) {
+      throw new Error('電話號碼格式錯誤：請輸入 09 開頭的 10 位數字');
+    }
+    // ------------------------------
+
     await fakeDelay(500);
 
     const currentData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -53,9 +64,9 @@ form.addEventListener('submit', async (event) => {
 
 getListBtn.addEventListener('click', async () => {
   updateLoadingState(true, getListBtn, '讀取中...', '查看目前報名清單 (GET)');
-  
+
   try {
-    await fakeDelay(300); 
+    await fakeDelay(300);
 
     const data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 

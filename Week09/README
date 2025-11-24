@@ -1,12 +1,5 @@
 # Week 09 - 註冊表單與 Node.js API 整合專案
-
-本專案為 Week 09 作業，旨在練習前後端整合。前端使用原生 HTML/JS 製作報名表單，後端使用 Node.js (Express) 建置 RESTful API，並實作資料驗證、防重複報名與查看清單功能。
-
----
-
 ## 環境需求 (Prerequisites)
-
-在開始之前，請確保您的電腦已安裝以下環境：
 
 1.  Node.js: 檢查指令: 'de -v'
 2.  VS Code: 建議使用的程式碼編輯器。
@@ -97,7 +90,7 @@ Method: 'GET'
 
 ##  測試方式與指令 (Testing Instructions)
 
-本專案提供三種測試方式，請確保後端 ('npm run dev') 已啟動後再進行測試。
+本專案提供三種測試方式，確保後端 ('npm run dev') 已啟動後再進行測試。
 
 ### 方式一：VS Code REST Client 
 1.  在 VS Code 中開啟 'tests/api.http' 檔案。
