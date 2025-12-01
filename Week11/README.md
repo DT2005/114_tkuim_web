@@ -50,12 +50,12 @@ db.participants.getIndexes()
 ## 5. 資料結構與截圖
 本系統資料儲存於 participants 集合，欄位結構如下：
 
-_id: 系統自動生成 ID
-name: 姓名
-email: 電子郵件 (唯一索引)
-phone: 電話
-createdAt: 建立時間
-MongoDB Compass 實際截圖：db_screenshot.png 放於根目錄
+#### _id: 系統自動生成 ID
+#### name: 姓名
+#### email: 電子郵件 (唯一索引)
+#### phone: 電話
+#### createdAt: 建立時間
+#### MongoDB Compass 截圖：db_screenshot.png 放於根目錄
 
 ## 6. 常見問題 (FAQ)
 Q: 啟動後連不上資料庫 (Connection Refused)？
