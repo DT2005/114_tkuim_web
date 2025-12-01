@@ -23,28 +23,28 @@ docker compose up -d
 ### 方法 A：API 功能測試 (使用 REST Client 或 Postman)
 專案內附有 tests/api.http 檔案，若使用 VS Code 可直接點擊 Send Request。
 
-# 1. 建立報名 (測試 Email 唯一性，重複會報錯)
+#### 1. 建立報名 (測試 Email 唯一性，重複會報錯)
 POST /api/signup
 
-# 2. 查詢清單 (測試分頁功能)
+#### 2. 查詢清單 (測試分頁功能)
 GET /api/signup?page=1&limit=10
 
-# 3. 更新學員資料
+#### 3. 更新學員資料
 PATCH /api/signup/:id
 
-# 4. 刪除學員資料
+#### 4. 刪除學員資料
 DELETE /api/signup/:id
 
 ### 方法  B：MongoDB Shell 指令驗證 (作業要求)
 請在終端機執行以下指令，直接驗證資料庫層面的實作：
 
-# 1. 進入資料庫 Shell
+#### 1. 進入資料庫 Shell
 docker exec -it week11-mongo mongosh -u week11-user -p week11-pass week11
 
-# 2. 驗證分頁邏輯 (Skip / Limit) 模擬查詢第 2 頁，每頁 2 筆 (跳過前 2 筆)：
+#### 2. 驗證分頁邏輯 (Skip / Limit) 模擬查詢第 2 頁，每頁 2 筆 (跳過前 2 筆)：
 db.participants.find().sort({ createdAt: -1 }).skip(2).limit(2)
 
-# 3. 驗證唯一索引 確認 email_1 索引存在 (unique: true)：
+#### 3. 驗證唯一索引 確認 email_1 索引存在 (unique: true)：
 db.participants.getIndexes()
 
 ## 5. 資料結構與截圖
