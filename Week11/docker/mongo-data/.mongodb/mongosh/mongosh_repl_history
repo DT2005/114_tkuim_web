@@ -1,0 +1,10 @@
+db.participants.createIndex({ email: 1 }, { unique: true })
+docker exec week11-mongo mongosh -u week11-user -p week11-pass week11 --eval "db.participants.createIndex({ email: 1 }, { unique: true })"
+show collections
+exit
+cd ./server/
+cd server
+npm run dev
+npm install
+cd server
+show collections

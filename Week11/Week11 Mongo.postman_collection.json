@@ -1,0 +1,48 @@
+{
+	"info": {
+		"_postman_id": "46190d58-9675-4312-b222-7b0590ba02e4",
+		"name": "Week11 Mongo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "50160169",
+		"_collection_link": "https://ab919055-1615956.postman.co/workspace/%E9%BB%83%E9%88%BA%E5%A9%B7's-Workspace~77578fde-1a83-4e9b-8923-ccecb89e3b2e/collection/50160169-46190d58-9675-4312-b222-7b0590ba02e4?action=share&source=collection_link&creator=50160169"
+	},
+	"item": [
+		{
+			"name": "GET 限制測試",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "POST 建立資料",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\": \"D同學\", \"email\": \"d@test.com\", \"phone\": \"0911000004\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
