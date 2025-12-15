@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      # 設定 root 帳號，確保與你的連線字串一致
+      MONGO_INITDB_ROOT_USERNAME: week12-admin
+      MONGO_INITDB_ROOT_PASSWORD: week12-pass
+      MONGO_INITDB_DATABASE: week12
+    volumes:
+      # 左邊是你的檔案，右邊是容器內的位置
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
