@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>未命名設計 - Canva Editor Clone</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            background-color: #ebecf0;
+        }
+
+        /* Top Bar */
+        .editor-header {
+            height: 56px;
+            background: linear-gradient(90deg, #00c4cc 0%, #7d2ae8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            color: white;
+        }
+
+        .header-left,
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .editor-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .editor-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .file-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* Main Workspace */
+        .workspace {
+            display: flex;
+            height: calc(100vh - 56px);
+        }
+
+        /* Side Toolbar */
+        .editor-sidebar {
+            width: 72px;
+            background: #0e1318;
+            color: #aebec9;
+            display: flex;
+            flex-direction: column;
+            padding-top: 8px;
+            z-index: 10;
+        }
+
+        .tool-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 12px 0;
+            cursor: pointer;
+            font-size: 11px;
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .tool-tab:hover,
+        .tool-tab.active {
+            color: white;
+            background: #23282e;
+        }
+
+        .tool-tab.active {
+            border-left: 3px solid #00c4cc;
+        }
+
+        /* Tool Panel (Second Level Sidebar) */
+        .tool-panel {
+            width: 300px;
+            background: #23282e;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #333;
+        }
+
+        .panel-header {
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            background: #23282e;
+        }
+
+        .panel-content {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .panel-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .panel-item {
+            background: #363d45;
+            border-radius: 4px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .panel-item img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 4px;
+        }
+
+        /* Canvas Area */
+        .canvas-area {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background-color: #ebecf0;
+            overflow: auto;
+        }
+
+        .whiteboard {
+            width: 800px;
+            height: 600px;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .placeholder-text {
+            color: #ddd;
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* Floating Zoom */
+        .zoom-controls {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            background: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .zoom-slider {
+            width: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="editor-header">
+        <div class="header-left">
+            <a href="home.html" style="color: white; text-decoration: none; display: flex; align-items: center;">
+                <span class="material-icons-outlined">home</span>
+            </a>
+            <div class="divider" style="width: 1px; height: 24px; background: rgba(255,255,255,0.2);"></div>
+            <span class="material-icons-outlined">undo</span>
+            <span class="material-icons-outlined">redo</span>
+            <span class="file-name">未命名設計 - 16:9</span>
+        </div>
+        <div class="header-right">
+            <div class="user-avatar"
+                style="width: 32px; height: 32px; background: #ffab00; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                U</div>
+            <button class="editor-btn">分享</button>
+            <button class="editor-btn" style="background: white; color: #7d2ae8;">下載</button>
+        </div>
+    </header>
+
+    <div class="workspace">
+        <!-- Sidebar Tools -->
+        <div class="editor-sidebar">
+            <div class="tool-tab active">
+                <span class="material-icons-outlined">grid_view</span>
+                設計
+            </div>
+            <div class="tool-tab">
+                <span class="material-icons-outlined">favorite_border</span>
+                元素
+            </div>
+            <div class="tool-tab">
+                <span class="material-icons-outlined">text_fields</span>
+                文字
+            </div>
+            <div class="tool-tab">
+                <span class="material-icons-outlined">palette</span>
+                品牌
+            </div>
+            <div class="tool-tab">
+                <span class="material-icons-outlined">cloud_upload</span>
+                上傳
+            </div>
+        </div>
+
+        <!-- Panel -->
+        <div class="tool-panel">
+            <div class="panel-header">設計範本</div>
+            <div class="panel-content">
+                <div class="search-box" style="margin-bottom: 16px;">
+                    <input type="text" placeholder="搜尋範本"
+                        style="width: 100%; padding: 8px; border-radius: 4px; border: none; background: #363d45; color: white;">
+                </div>
+                <div class="panel-grid">
+                    <div class="panel-item"
+                        style="background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);"></div>
+                    <div class="panel-item" style="background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);">
+                    </div>
+                    <div class="panel-item" style="background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);">
+                    </div>
+                    <div class="panel-item" style="background: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Canvas -->
+        <div class="canvas-area">
+            <div class="whiteboard">
+                <div class="placeholder-text">Canvas Area</div>
+            </div>
+
+            <div class="zoom-controls">
+                <span>10%</span>
+                <input type="range" class="zoom-slider">
+                <span>Fit</span>
+                <span class="material-icons-outlined">fullscreen</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

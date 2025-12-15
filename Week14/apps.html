@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>應用程式 - Canva Clone</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .apps-hero {
+            background-color: #e6f0ff;
+            border-radius: 16px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .apps-hero::after {
+            content: '';
+            position: absolute;
+            right: -50px;
+            top: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(139, 61, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .apps-hero-content h1 {
+            font-size: 36px;
+            margin-bottom: 16px;
+            color: #0d1216;
+        }
+
+        .apps-hero-content p {
+            font-size: 16px;
+            color: #5e6c84;
+            max-width: 500px;
+            margin-bottom: 24px;
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .app-card {
+            background: white;
+            border: 1px solid #e1e4e8;
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            gap: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .app-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .app-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #555;
+            flex-shrink: 0;
+        }
+
+        .app-info h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .app-info p {
+            font-size: 13px;
+            color: #5e6c84;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .app-category-title {
+            margin: 40px 0 20px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container" style="min-height: 100vh;">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <button class="icon-btn menu-btn">
+                    <span class="material-icons-outlined">menu</span>
+                </button>
+                <div class="logo">Canva</div>
+            </div>
+
+            <div class="create-btn-container">
+                <a href="editor.html" class="btn btn-primary btn-create"
+                    style="text-decoration: none; justify-content: center;">
+                    <span class="material-icons-outlined">add</span>
+                    <span>建立設計</span>
+                </a>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="home.html" class="nav-item">
+                            <span class="material-icons-outlined">home</span>
+                            <span>首頁</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="projects.html" class="nav-item">
+                            <span class="material-icons-outlined">folder</span>
+                            <span>專案</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="templates.html" class="nav-item">
+                            <span class="material-icons-outlined">grid_view</span>
+                            <span>範本</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item">
+                            <span class="material-icons-outlined">stars</span>
+                            <span>品牌</span>
+                            <span class="pro-badge">PRO</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="apps.html" class="nav-item active">
+                            <span class="material-icons-outlined">apps</span>
+                            <span>應用程式</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-right">
+                    <button class="icon-btn"><span class="material-icons-outlined">settings</span></button>
+                    <a href="profile.html" class="user-avatar" style="text-decoration: none;">U</a>
+                </div>
+            </header>
+
+            <div class="apps-container">
+                <div class="apps-hero">
+                    <div class="apps-hero-content">
+                        <h1>探索應用程式</h1>
+                        <p>透過熱門應用程式，讓您的設計更上一層樓。從 AI 圖像生成到 QR Code 製作，應有盡有。</p>
+                        <button class="btn btn-primary">瀏覽市集</button>
+                    </div>
+                    <span class="material-icons-outlined"
+                        style="font-size: 150px; color: rgba(0,0,0,0.05);">rocket_launch</span>
+                </div>
+
+                <div class="search-bar-container" style="max-width: 100%; margin-bottom: 40px;">
+                    <span class="material-icons-outlined search-icon">search</span>
+                    <input type="text" placeholder="搜尋應用程式" class="search-input">
+                </div>
+
+                <h2 class="app-category-title">熱門推薦</h2>
+                <div class="app-grid">
+                    <div class="app-card">
+                        <div class="app-icon" style="background: #fff0f0; color: #ff5252;">
+                            <span class="material-icons-outlined">auto_awesome</span>
+                        </div>
+                        <div class="app-info">
+                            <h3>Magic Media</h3>
+                            <p>使用 AI 文字轉圖片技術，瞬間生成獨一無二的影像。</p>
+                        </div>
+                    </div>
+                    <div class="app-card">
+                        <div class="app-icon" style="background: #e3f2fd; color: #2196f3;">
+                            <span class="material-icons-outlined">qr_code_2</span>
+                        </div>
+                        <div class="app-info">
+                            <h3>QR Code</h3>
+                            <p>為您的設計添加可掃描的 QR Code，連結至網站或社群。</p>
+                        </div>
+                    </div>
+                    <div class="app-card">
+                        <div class="app-icon" style="background: #f3e5f5; color: #9c27b0;">
+                            <span class="material-icons-outlined">cloud_upload</span>
+                        </div>
+                        <div class="app-info">
+                            <h3>Google Drive</h3>
+                            <p>直接存取您 Google 雲端硬碟中的照片與資產。</p>
+                        </div>
+                    </div>
+                    <div class="app-card">
+                        <div class="app-icon" style="background: #e8f5e9; color: #4caf50;">
+                            <span class="material-icons-outlined">sentiment_satisfied</span>
+                        </div>
+                        <div class="app-info">
+                            <h3>Emoji</h3>
+                            <p>在設計中添加各種生動有趣的表情符號。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="app-category-title">生產力工具</h2>
+                <div class="app-grid">
+                    <div class="app-card">
+                        <div class="app-icon" style="background: #e0f7fa; color: #00bcd4;">
+                            <span class="material-icons-outlined">bar_chart</span>
+                        </div>
+                        <div class="app-info">
+                            <h3>Charts</h3>
+                            <p>輕鬆製作美觀的圖表與數據視覺化。</p>
+                        </div>
+                    </div>
+                    <div class="app-card">
+                        <div class="app-icon" style="background: #fff3e0; color: #ff9800;">
+                            <span class="material-icons-outlined">map</span>
+                        </div>
+                        <div class="app-info">
+                            <h3>Google Maps</h3>
+                            <p>嵌入互動式地圖到您的設計中。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

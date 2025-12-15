@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>範本 - Canva Clone</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .category-tags {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+
+        .tag {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #e1e4e8;
+            border-radius: 20px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tag:hover,
+        .tag.active {
+            background: #eef0f2;
+            border-color: #8b3dff;
+            color: #8b3dff;
+        }
+
+        .hero-banner {
+            background: linear-gradient(120deg, #d5fefd 0%, #fffcff 100%);
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .hero-banner h1 {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container" style="min-height: 100vh;">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <button class="icon-btn menu-btn">
+                    <span class="material-icons-outlined">menu</span>
+                </button>
+                <div class="logo">Canva</div>
+            </div>
+
+            <div class="create-btn-container">
+                <a href="editor.html" class="btn btn-primary btn-create"
+                    style="text-decoration: none; justify-content: center;">
+                    <span class="material-icons-outlined">add</span>
+                    <span>建立設計</span>
+                </a>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="home.html" class="nav-item">
+                            <span class="material-icons-outlined">home</span>
+                            <span>首頁</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="projects.html" class="nav-item">
+                            <span class="material-icons-outlined">folder</span>
+                            <span>專案</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="templates.html" class="nav-item active">
+                            <span class="material-icons-outlined">grid_view</span>
+                            <span>範本</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item">
+                            <span class="material-icons-outlined">stars</span>
+                            <span>品牌</span>
+                            <span class="pro-badge">PRO</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="apps.html" class="nav-item">
+                            <span class="material-icons-outlined">apps</span>
+                            <span>應用程式</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-right">
+                    <button class="icon-btn"><span class="material-icons-outlined">settings</span></button>
+                    <a href="profile.html" class="user-avatar" style="text-decoration: none;">U</a>
+                </div>
+            </header>
+
+            <div class="templates-container">
+                <div class="hero-banner">
+                    <h1>探索數千個免費範本</h1>
+                    <p>從社群媒體貼文到簡報，立刻開始設計。</p>
+                </div>
+
+                <div class="category-tags">
+                    <div class="tag active">為您推薦</div>
+                    <div class="tag">簡報</div>
+                    <div class="tag">社群媒體</div>
+                    <div class="tag">影片</div>
+                    <div class="tag">行銷相關</div>
+                    <div class="tag">辦公室</div>
+                    <div class="tag">更多</div>
+                </div>
+
+                <div class="section-header">
+                    <h2>本週熱門</h2>
+                </div>
+                <div class="templates-grid">
+                    <div class="template-card">
+                        <div class="card-image"><img src="assets/thumb_instagram.png" alt="Template"></div>
+                        <div class="card-info">
+                            <h3>極簡語錄</h3>
+                        </div>
+                    </div>
+                    <div class="template-card">
+                        <div class="card-image"><img src="assets/thumb_presentation.png" alt="Template"></div>
+                        <div class="card-info">
+                            <h3>商務提案藍色系</h3>
+                        </div>
+                    </div>
+                    <div class="template-card">
+                        <div class="card-image"><img src="assets/thumb_poster.png" alt="Template"></div>
+                        <div class="card-info">
+                            <h3>夏日音樂祭</h3>
+                        </div>
+                    </div>
+                    <div class="template-card">
+                        <div class="card-image"><img src="assets/thumb_resume.png" alt="Template"></div>
+                        <div class="card-info">
+                            <h3>創意履歷表</h3>
+                        </div>
+                    </div>
+                    <div class="template-card">
+                        <div class="card-image"><img src="assets/thumb_presentation.png" alt="Template"></div>
+                        <div class="card-info">
+                            <h3>專案時程表</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-header" style="margin-top: 40px;">
+                    <h2>Instagram 貼文</h2>
+                </div>
+                <div class="templates-grid">
+                    <div class="template-card">
+                        <div class="card-image"><img src="assets/thumb_instagram.png" alt="Template"></div>
+                        <div class="card-info">
+                            <h3>早安正能量</h3>
+                        </div>
+                    </div>
+                    <div class="template-card">
+                        <div class="card-image"><img src="assets/thumb_instagram.png" alt="Template"></div>
+                        <div class="card-info">
+                            <h3>促銷活動限時</h3>
+                        </div>
+                    </div>
+                    <div class="template-card">
+                        <div class="card-image"><img src="assets/thumb_instagram.png" alt="Template"></div>
+                        <div class="card-info">
+                            <h3>新產品發布</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

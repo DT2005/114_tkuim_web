@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首頁 - Canva Clone</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Using Google Fonts for icons as a lightweight alternative to FontAwesome -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Top Banner -->
+    <div class="top-banner" id="top-banner">
+        <div class="banner-content">
+            <span class="material-icons-outlined banner-icon">workspace_premium</span>
+            <p>獲得 Canva Pro 或 Canva - 商用版 的 3 個月半價優惠。</p>
+            <button class="btn btn-dark">查看優惠</button>
+        </div>
+        <button class="icon-btn close-banner" id="close-banner">
+            <span class="material-icons-outlined">close</span>
+        </button>
+    </div>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <button class="icon-btn menu-btn">
+                    <span class="material-icons-outlined">menu</span>
+                </button>
+                <div class="logo">Canva</div>
+            </div>
+
+            <div class="create-btn-container">
+                <a href="editor.html" class="btn btn-primary btn-create"
+                    style="text-decoration: none; justify-content: center;">
+                    <span class="material-icons-outlined">add</span>
+                    <span>建立設計</span>
+                </a>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="home.html" class="nav-item active">
+                            <span class="material-icons-outlined">home</span>
+                            <span>首頁</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="projects.html" class="nav-item">
+                            <span class="material-icons-outlined">folder</span>
+                            <span>專案</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="templates.html" class="nav-item">
+                            <span class="material-icons-outlined">grid_view</span>
+                            <span>範本</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item">
+                            <span class="material-icons-outlined">stars</span>
+                            <span>品牌</span>
+                            <span class="pro-badge">PRO</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="apps.html" class="nav-item">
+                            <span class="material-icons-outlined">apps</span>
+                            <span>應用程式</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="team-section">
+                    <button class="nav-item">
+                        <span class="material-icons-outlined">group_add</span>
+                        <span>邀請成員</span>
+                    </button>
+                </div>
+                <button class="nav-item trash-item">
+                    <span class="material-icons-outlined">delete_outline</span>
+                    <span>垃圾桶</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-right">
+                    <button class="icon-btn" title="設定">
+                        <span class="material-icons-outlined">settings</span>
+                    </button>
+                    <button class="icon-btn" title="通知">
+                        <span class="material-icons-outlined">notifications</span>
+                    </button>
+                    <button class="btn btn-outline glow-btn">
+                        <span class="material-icons-outlined">workspace_premium</span>
+                        升級方案
+                    </button>
+                    <a href="profile.html" class="user-avatar" title="帳號設定" style="text-decoration: none;">
+                        U
+                    </a>
+                </div>
+            </header>
+
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <h1 class="greeting">你今天要設計些什麼呢？</h1>
+
+                <div class="search-tabs">
+                    <button class="tab-btn active" data-tab="templates">範本</button>
+                    <button class="tab-btn" data-tab="projects">你的設計</button>
+                    <button class="tab-btn ai-tab">
+                        <span class="material-icons-outlined">auto_awesome</span>
+                        Canva AI
+                    </button>
+                </div>
+
+                <div class="search-bar-container">
+                    <span class="material-icons-outlined search-icon">search</span>
+                    <input type="text" placeholder="搜尋數百萬個範本" class="search-input">
+                    <button class="icon-btn filter-btn">
+                        <span class="material-icons-outlined">tune</span>
+                    </button>
+                </div>
+
+                <!-- Quick Access Icons -->
+                <nav class="quick-access">
+                    <button class="quick-item">
+                        <div class="icon-circle icon-doc"><span class="material-icons-outlined">article</span></div>
+                        <span>文件</span>
+                    </button>
+                    <button class="quick-item">
+                        <div class="icon-circle icon-board"><span class="material-icons-outlined">dashboard</span></div>
+                        <span>白板</span>
+                    </button>
+                    <button class="quick-item">
+                        <div class="icon-circle icon-pres"><span class="material-icons-outlined">tv</span></div>
+                        <span>簡報</span>
+                    </button>
+                    <button class="quick-item">
+                        <div class="icon-circle icon-social"><span class="material-icons-outlined">favorite</span></div>
+                        <span>社群媒體</span>
+                    </button>
+                    <button class="quick-item">
+                        <div class="icon-circle icon-video"><span class="material-icons-outlined">play_circle</span>
+                        </div>
+                        <span>影片</span>
+                    </button>
+                    <button class="quick-item">
+                        <div class="icon-circle icon-print"><span class="material-icons-outlined">print</span></div>
+                        <span>列印</span>
+                    </button>
+                    <button class="quick-item">
+                        <div class="icon-circle icon-web"><span class="material-icons-outlined">computer</span></div>
+                        <span>網站</span>
+                    </button>
+                    <button class="quick-item">
+                        <div class="icon-circle icon-more"><span class="material-icons-outlined">more_horiz</span></div>
+                        <span>顯示更多</span>
+                    </button>
+                </nav>
+            </section>
+
+            <!-- Templates Section -->
+            <section class="suggestions-section">
+                <div class="section-header">
+                    <h2>探索範本</h2>
+                </div>
+
+                <div class="templates-grid">
+                    <div class="template-card">
+                        <div class="card-image">
+                            <img src="assets/thumb_presentation.png" alt="Presentation">
+                            <div class="card-overlay">
+                                <span class="material-icons-outlined fav-icon">star_border</span>
+                                <span class="material-icons-outlined more-icon">more_horiz</span>
+                            </div>
+                        </div>
+                        <div class="card-info">
+                            <h3>年度簡報</h3>
+                            <p>簡報 · 16:9</p>
+                        </div>
+                    </div>
+
+                    <div class="template-card">
+                        <div class="card-image">
+                            <img src="assets/thumb_instagram.png" alt="Instagram Post">
+                            <div class="card-overlay">
+                                <span class="material-icons-outlined fav-icon">star_border</span>
+                            </div>
+                        </div>
+                        <div class="card-info">
+                            <h3>正向語錄</h3>
+                            <p>Instagram 貼文</p>
+                        </div>
+                    </div>
+
+                    <div class="template-card">
+                        <div class="card-image">
+                            <img src="assets/thumb_resume.png" alt="Resume">
+                            <div class="card-overlay">
+                                <span class="material-icons-outlined fav-icon">star_border</span>
+                            </div>
+                        </div>
+                        <div class="card-info">
+                            <h3>專業履歷</h3>
+                            <p>A4 文件</p>
+                        </div>
+                    </div>
+
+                    <div class="template-card">
+                        <div class="card-image">
+                            <img src="assets/thumb_poster.png" alt="Poster">
+                            <div class="card-overlay">
+                                <span class="material-icons-outlined fav-icon">star_border</span>
+                            </div>
+                        </div>
+                        <div class="card-info">
+                            <h3>音樂節海報</h3>
+                            <p>海報</p>
+                        </div>
+                    </div>
+                    <div class="template-card">
+                        <div class="card-image">
+                            <img src="assets/thumb_presentation.png" alt="Presentation">
+                            <div class="card-overlay">
+                                <span class="material-icons-outlined fav-icon">star_border</span>
+                            </div>
+                        </div>
+                        <div class="card-info">
+                            <h3>商業提案</h3>
+                            <p>簡報</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Floating Help Button -->
+    <button class="fab-help" title="協助">
+        <span class="material-icons-outlined">help_outline</span>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
